@@ -398,7 +398,7 @@ def expand_node(model, sentence, past):
         input_ids = torch.tensor([sentence[-1]]).unsqueeze(0)
     inputs = {'input_ids': input_ids}    
     with torch.no_grad():
-        logits, past = model(**inputs, past=past)
+        logits, past = model(**inputs, past_key_values=past)
         logits[0][0][50256]=-math.inf # no <end of text> token
         logits = logits[:, -1, :]  
         probs = F.softmax(logits, dim=-1).tolist()[0]
